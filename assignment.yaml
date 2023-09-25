@@ -1,0 +1,140 @@
+openapi: "3.0.1"
+
+info:
+  title: A Virtual Learning Application API
+  version: "0.0.1"
+
+servers:
+  - url: http://localhost:8080/vle/api/v1
+
+
+paths:
+  /lecturers:
+    get:
+      summary: Get all lecturers added to the application
+      operationId: get_all
+      description: Returns all the lecturers in the application
+      responses:
+        '200':
+          description: "A list of lecturers"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lecturers"
+        
+     
+  /lecturers/staffNumber}:
+    parameters:
+      - name: name
+        in: path
+        description: number of lecturer
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get a single lecturer
+      operationId: get_lecturer
+      description: Returns a single lecturer based on their staff number
+      responses:
+        '200':
+          description: lecturer response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Lecturers'
+    post:
+      summary: Add a new lecturer
+      operationId: Lecturer
+      description: Create a new lecturer and add it to the list of lecturers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Lecturers'
+      responses:
+        '201':
+          description: Lecturer successfully created
+          content:
+            application/json:
+              schema:
+                properties:
+                  userid:
+                    type: string
+                    description: the name of the lecturer newly created
+    delete:
+      summary: Delete an existing Lecturer
+      operationId: delete_lecturer
+      description: deletes an existing lecturer based on their staff number
+      responses:
+        '204':
+          description: Lecturer was successfully deleted
+  /lecturers/course/{courseNo}:
+    parameters:
+      - name: courseName
+        in: path
+        description: course name of a specific course
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get all lectures that teach a certain (specific) course
+      operationId: get_allCourse
+      description: Returns all lecturers teaching a certain (specific) course
+      responses:
+        '200':
+          description: "A list of lectures"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lecturers"   
+
+  /Lecturers/office/{officeNumber}:
+    parameters:
+      - name: officeNumber
+        in: path
+        description: office number of lecturer(s)
+        schema:
+          type: string
+        required: true
+    get:
+      summary: Get all lectures that sit in a specific office
+      operationId: get_allOffices
+      description: Returns all lecturers that sits in a specific office
+      responses:
+        '200':
+          description: "A list of lectures"
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Lecturers"               
+
+components:
+  schemas:
+    Lecturers:
+      title: Lecturer Description
+      type: object
+      properties:
+        staffNumber:
+          type: integer
+          description: the staff number of the lecturer
+        officeNumber:
+          type: integer
+          description: the office number of the lecturer
+        staffName:
+          type: string
+          description: the staff name of the lecturer
+        title:
+          type: string
+          description: the title of the lecturer 
+        Courses:
+           type: string
+           description: the courses that the lecturer teaches 
+        courseNo:
+           type: integer
+           description: a specific number for a specific course
